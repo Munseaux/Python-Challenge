@@ -1,5 +1,6 @@
 import os 
 import csv
+import sys
 
 
 bank_data = []
@@ -24,7 +25,7 @@ def financial_analysis(datums):
     for i in range(len(datums)):
         
         total_profits += int(datums[i][1])
-        #if we evaluate this on i = 0 then it breaks bc 8k - 0 = 8k, but that is not the difference.
+        #if we evaluate this on i = 0 then it breaks bc 8k - 0 = 8k, but that is not the difference between the first two values.
         if i != 0: 
             difference =  int(datums[i][1]) - lookback
             sum_of_changes = sum_of_changes + difference
@@ -41,27 +42,36 @@ def financial_analysis(datums):
         lookback = int(datums[i][1])
         
 
-
+    #print solution to screen
     print(f"Total: {total_profits}")
     
     avg_change = sum_of_changes / (len(datums) - 1)
     print(f"Average Change: {round(avg_change,2)}")
 
-    print(f"Greatest Increase in Profits: {increase_month} : {greatest_increase}")
-    print(f"Greatest Decrease in Profits: {decrease_month} : {greatest_increase}")
+    print(f"Greatest Increase in Profits: {increase_month} : ${greatest_increase}")
+    print(f"Greatest Decrease in Profits: {decrease_month} : ${greatest_decrease}")
 
+    #print solution to file
+    write_path = os.path.join('solutions_output', 'bank_solution.txt')
 
+    with open(write_path, 'w') as f:
+        sys.stdout = f
 
-
-
-
+        print("Financial Analysis")
+        print("------------------------------------------------------------")
+        print(f"Total Months: {len(datums)} ")
+        print(f"Total: {total_profits}")
+        print(f"Average Change: {round(avg_change,2)}")
+        print(f"Greatest Increase in Profits: {increase_month} : ${greatest_increase}")
+        print(f"Greatest Decrease in Profits: {decrease_month} : ${greatest_decrease}")
     
+    return None
 
-    
-os_path = os.path.join('resources', 'budget_data.csv')
+  
+read_path = os.path.join('resources', 'budget_data.csv')
 
 # Read in the CSV file
-with open(os_path) as csvfile:
+with open(read_path) as csvfile:
 
     csvreader = csv.reader(csvfile, delimiter=',')
 
@@ -71,4 +81,7 @@ with open(os_path) as csvfile:
 
     bank_data.pop(0)
 
+#call function to do all the work for me
 financial_analysis(bank_data)
+
+
