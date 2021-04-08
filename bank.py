@@ -29,7 +29,7 @@ def financial_analysis(datums):
         if i != 0: 
             difference =  int(datums[i][1]) - lookback
             sum_of_changes = sum_of_changes + difference
-        print(sum_of_changes)
+        
 
         if greatest_decrease > difference:
             greatest_decrease = difference
